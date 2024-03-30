@@ -1,6 +1,7 @@
 const express = require("express")
 const axios = require("axios")
 const { redisConnection } = require("../utils/redis.utils")
+const { readMailAndAssignLabel } = require("../utils/openAI.utils")
 
 const GmailRouter = express.Router()
 
@@ -75,7 +76,7 @@ GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
                 "Authorization" :`Bearer ${access_token}`
             }
         })
-       
+       readMailAndAssignLabel(response.data)
         res.status(200).json(response.data)
     } catch (error) {
         console.log(error)
