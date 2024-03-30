@@ -3,6 +3,7 @@ const {google} = require("googleapis")
 const {OAuth2Client} = require('google-auth-library')
 require("dotenv").config()
 const axios = require("axios")
+const { redisConnection } = require("../utils/redis.utils")
 const oAuth2Client = new OAuth2Client({
     clientId:process.env.GOOGLE_CLIENTID,
     clientSecret:process.env.GOOGLE_CLIENTSECRET,
@@ -44,7 +45,7 @@ GoogleRouter.get("/auth/callback",async(req,res)=>{
         });
         const userEmail = userInfoResponse.data.email;
         console.log('User Email:', userEmail);
-
+        redisConnection.set(userEmail,accessToken)
         
         res.send("User Authenticated")
     } catch (error) {
