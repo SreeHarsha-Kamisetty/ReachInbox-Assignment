@@ -79,9 +79,50 @@ GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
         res.status(200).json(response.data)
     } catch (error) {
         console.log(error)
-        res.status(400).json({Error:"Error while getting email list"})
+        res.status(400).json({Error:"Error while reading message"})
     }
 })
+
+GmailRouter.get("/labels/:userId",async(req,res)=>{
+    try {
+        let {userId,id} = req.params
+        
+        let access_token = await redisConnection.get(userId)
+        
+        let response = await axios.get(`https://gmail.googleapis.com/gmail/v1/users/${userId}/labels`,{
+            headers:{
+                "Content-Type" : "application/json",
+                "Authorization" :`Bearer ${access_token}`
+            }
+        })
+       
+        res.status(200).json(response.data)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({Error:"Error while getting labels list"})
+    }
+})
+
+GmailRouter.post("/addLabel/:userId/messages/:id",async(req,res)=>{
+    try {
+        let {userId,id} = req.params
+        
+        let access_token = await redisConnection.get(userId)
+        
+        let response = await axios.post(`https://gmail.googleapis.com/gmail/v1/users/${userId}/messages/${id}/modify`,req.body,{
+            headers:{
+                "Content-Type" : "application/json",
+                "Authorization" :`Bearer ${access_token}`
+            }
+        })
+       
+        res.status(200).json(response.data)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({Error:"Error while adding label to message"})
+    }
+})
+
 
 module.exports={
     GmailRouter
