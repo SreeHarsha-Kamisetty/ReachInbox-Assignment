@@ -6,6 +6,7 @@ const {Queue,Worker} = require("bullmq")
 const LabelQueue = new Queue("reply",{connection:redisConnection})
 const GmailRouter = express.Router()
 
+// Get userinfo
 GmailRouter.get("/userInfo/:userId",async(req,res)=>{
     try {
         let {userId} = req.params
@@ -24,6 +25,9 @@ GmailRouter.get("/userInfo/:userId",async(req,res)=>{
         res.status(400).json({Error:"Error while getting user data"})
     }
 })
+
+
+// create a custom label
 
 GmailRouter.post("/createLabel/:userId",async(req,res)=>{
     try {
@@ -45,7 +49,7 @@ GmailRouter.post("/createLabel/:userId",async(req,res)=>{
         res.status(400).json({Error:"Error while creating new label"})
     }
 })
-
+// list of emails of user
 GmailRouter.get("/list/:userId",async(req,res)=>{
     try {
         let {userId} = req.params
@@ -64,7 +68,7 @@ GmailRouter.get("/list/:userId",async(req,res)=>{
         res.status(400).json({Error:"Error while getting email list"})
     }
 })
-
+// read mail/message by id assign label and  send reply
 GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
     try {
         let {userId,id} = req.params
@@ -83,20 +87,21 @@ GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
 
        if(label == "Interested"){
         
-       await createLabel("Label_3", userId, id, access_token);
+       await assignLabel("Label_3", userId, id, access_token);
        }
        else if(label == "Not Interested"){
         
-        await createLabel("Label_4", userId, id, access_token);
+        await assignLabel("Label_4", userId, id, access_token);
        }
        else if(label == "More Information"){
-        await createLabel("Label_5", userId, id, access_token);
+        await assignLabel("Label_5", userId, id, access_token);
        }
        let jobData={
         userId:userId,
         id:id,
         access_token:access_token,
-        label:label
+        label:label,
+        reply:response.data.snippet
        }
        LabelQueue.add("Send Reply",jobData);
 
@@ -107,6 +112,8 @@ GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
     }
 })
 
+
+// get a list of labels available for user (custom and default)
 GmailRouter.get("/labels/:userId",async(req,res)=>{
     try {
         let {userId,id} = req.params
@@ -127,6 +134,7 @@ GmailRouter.get("/labels/:userId",async(req,res)=>{
     }
 })
 
+// adding label to a mail
 GmailRouter.post("/addLabel/:userId/messages/:id",async(req,res)=>{
     try {
         let {userId,id} = req.params
@@ -148,7 +156,7 @@ GmailRouter.post("/addLabel/:userId/messages/:id",async(req,res)=>{
 })
 
 
-async function createLabel(label,userId,id,access_token){
+async function assignLabel(label,userId,id,access_token){
     try {
         let labelOptions={
             "addLabelIds":[`${label}`]
