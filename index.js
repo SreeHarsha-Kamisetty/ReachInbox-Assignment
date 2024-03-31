@@ -3,6 +3,7 @@ const cors = require("cors")
 const path = require("path");
 const { GoogleRouter } = require("./routes/google.routes");
 const { GmailRouter } = require("./routes/gmail.routes");
+const { MicrosoftRouter } = require("./routes/microsoft.router");
 
 
 
@@ -16,6 +17,9 @@ app.use("/google",GoogleRouter)
 // Gmail routes
 app.use("/gmail",GmailRouter)
 
+// MS Oauth
+
+app.use("/microsoft",MicrosoftRouter)
 
 app.get("/",(req,res)=>{
     res.sendFile(path.join(__dirname,"index.html"))
