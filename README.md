@@ -37,3 +37,50 @@ Response:
     "historyId": "7202"
 }
 ```
+- POST /gmail/createLabel/:userId
+    - To create custom labels for user
+    - Request body contains the Label details
+```json
+{
+    "name": "More Information",
+    "messageListVisibility": "show",
+    "labelListVisibility": "labelShow",
+    "color":{
+        "textColor": "#3c78d8",
+        "backgroundColor": "#000000"
+    }
+}
+```
+- GET /gmail/list/:userId
+  - To get list of emails of a user
+  - Example:
+```json
+GET /gmail/list/kamisetty.sreeharsha99@gmail.com
+
+Response:
+{
+    "messages": [
+        {
+            "id": "18e94c1ee9a46c66",
+            "threadId": "18e94c129920d4ff"
+        },
+        {
+            "id": "18e94c1579b51186",
+            "threadId": "18e94c129920d4ff"
+        },
+        {
+            "id": "18e945faa9cb1c9d",
+            "threadId": "18e945faa9cb1c9d"
+        },
+        {
+            "id": "18e944aab143c67e",
+            "threadId": "18e944aab143c67e"
+        },
+        {
+            "id": "18e94483145281bf",
+            "threadId": "18e92a796487249a"
+        }
+  ]
+}
+```
+
