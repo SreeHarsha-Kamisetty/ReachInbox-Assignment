@@ -237,4 +237,19 @@ GET /gmail/labels/kamisetty.sreeharsha99@gmail.com
     ]
 }
 ```
+## Outlook
+
+- GET /outlook/list/:userId
+- This will fetch all the available mails in user inbox
+
+- GET /outlook/read/:userId/:messageId
+- This endpoint is used to read a particular mail of a user and generate reply according to the email content
+- Original Email
+  ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/803fa008-c3f6-4ec9-8e17-3f1aaa37ae9b)
+- User Reply
+  ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/07030649-6185-4338-8f4a-88990e9e5a71)
+- Follow-up mail generated using openai
+  ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/54b28dd8-eae8-44ee-b3da-4a1abe977cd7)
+
+
 
