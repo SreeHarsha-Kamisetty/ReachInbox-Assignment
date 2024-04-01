@@ -252,4 +252,5 @@ GET /gmail/labels/kamisetty.sreeharsha99@gmail.com
     ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/54b28dd8-eae8-44ee-b3da-4a1abe977cd7)
 
 
-
+### Video walkthrough
+https://drive.google.com/file/d/1ApYk7O6FrDkftPOEQxWYYuinyqMEnOAl/view?usp=sharing
