@@ -15,7 +15,8 @@ const config = {
     clientId: process.env.AZURE_CLIENT_ID, // Replace with your Azure AD application's client ID
     authority: 'https://login.microsoftonline.com/common', 
     clientSecret: process.env.AZURE_CLIENT_SECRET,
-    redirectUri: 'http://localhost:8080/microsoft/auth/callback' 
+    // redirectUri: 'http://localhost:8080/microsoft/auth/callback' 
+    redirectUri: 'https://reachinbox-assignment-main.onrender.com/microsoft/auth/callback'
   },
 };
 
@@ -26,7 +27,7 @@ MicrosoftRouter.get('/auth', async (req, res) => {
     const authCodeUrlParameters = {
         
         scopes:['user.read','Mail.Read','Mail.Send'],
-        redirectUri: 'http://localhost:8080/microsoft/auth/callback',
+        redirectUri: 'https://reachinbox-assignment-main.onrender.com/microsoft/auth/callback',
       };
       
 
@@ -46,7 +47,7 @@ MicrosoftRouter.get('/auth/callback', async (req, res) => {
     code: req.query.code,
     
     scopes:['user.read','Mail.Read','Mail.Send'],
-    redirectUri: 'http://localhost:8080/microsoft/auth/callback', // The same redirect URI used in the authorization URL
+    redirectUri: 'https://reachinbox-assignment-main.onrender.com/microsoft/auth/callback', // The same redirect URI used in the authorization URL
   };
   
   try {
