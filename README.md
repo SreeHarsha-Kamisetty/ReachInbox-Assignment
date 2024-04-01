@@ -20,11 +20,11 @@ with the help of openai.
 
 ## API Endpoints:
 
-### Google
+## Google
 
-- GET /google/auth
+- ### GET /google/auth
   - To start google oauth process and authenticate users
-- GET /gmail/userInfo/:userId
+- ### GET /gmail/userInfo/:userId
   - To get details of authenticated user
   - Example:
 ```json
@@ -37,7 +37,7 @@ Response:
     "historyId": "7202"
 }
 ```
-- POST /gmail/createLabel/:userId
+- ### POST /gmail/createLabel/:userId
     - To create custom labels for user
     - Request body contains the Label details
 ```json
@@ -51,7 +51,7 @@ Response:
     }
 }
 ```
-- GET /gmail/list/:userId
+- ### GET /gmail/list/:userId
   - To get list of emails of a user
   - Example:
 ```json
@@ -83,7 +83,7 @@ Response:
   ]
 }
 ```
-- GET /gmail/read/:userId/messages/:id
+- ### GET /gmail/read/:userId/messages/:id
  - This api endpoint reads the particular email and assigns a label according to the email content. And based on that label a reply would be generated using openai and sent to user
    ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/2ca4a6e1-1938-4b13-a164-74afd7f2efa2)
    - Label added to email according to the content.
@@ -98,7 +98,7 @@ Response:
     "Message": "Label assigned. Reply scheduled"
 }
 ```
-- GET  /gmail/labels/:userId
+- ### GET  /gmail/labels/:userId
     - To get a list of all available labels for a user including custom labels as well as default
     - Example:
       
@@ -237,4 +237,20 @@ GET /gmail/labels/kamisetty.sreeharsha99@gmail.com
     ]
 }
 ```
+## Outlook
 
+- ### GET /outlook/list/:userId
+  - This will fetch all the available mails in user inbox
+
+- ### GET /outlook/read/:userId/:messageId
+  - This endpoint is used to read a particular mail of a user and generate reply according to the email content
+  - Original Email
+    ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/803fa008-c3f6-4ec9-8e17-3f1aaa37ae9b)
+  - User Reply
+    ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/07030649-6185-4338-8f4a-88990e9e5a71)
+  - Follow-up mail generated using openai
+    ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/54b28dd8-eae8-44ee-b3da-4a1abe977cd7)
+
+
+### Video walkthrough
+https://drive.google.com/file/d/1ApYk7O6FrDkftPOEQxWYYuinyqMEnOAl/view?usp=sharing
