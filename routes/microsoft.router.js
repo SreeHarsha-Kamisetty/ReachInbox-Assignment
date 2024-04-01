@@ -3,7 +3,7 @@ const express = require("express")
 
 const MicrosoftRouter = express.Router()
 
-
+const { redisConnection } = require("../utils/redis.utils")
 const { PublicClientApplication, ConfidentialClientApplication } = require('@azure/msal-node');
 const  axios  = require("axios");
 require("dotenv").config()
@@ -13,8 +13,9 @@ const app = express();
 const config = {
   auth: {
     clientId: process.env.AZURE_CLIENT_ID, // Replace with your Azure AD application's client ID
-    authority: 'https://login.microsoftonline.com/c44d887d-a123-4046-a209-47f50ee2d45d', // Replace with your Azure AD tenant ID
-    clientSecret: process.env.AZURE_CLIENT_SECRET, // Replace with your Azure AD application's client secret (value not id)
+    authority: 'https://login.microsoftonline.com/common', // Replace with your Azure AD tenant ID
+    clientSecret: process.env.AZURE_CLIENT_SECRET,
+    redirectUri: 'http://localhost:8080/microsoft/auth/callback' // Replace with your Azure AD application's client secret (value not id)
   },
 };
 
@@ -23,7 +24,8 @@ const pca = new ConfidentialClientApplication(config);
 // Route to start the MS authentication flow
 MicrosoftRouter.get('/auth', async (req, res) => {
     const authCodeUrlParameters = {
-        scopes: ['openid', 'profile', 'offline_access', 'Mail.Read', 'Mail.ReadWrite', 'Mail.Send'],
+        // scopes: ['openid', 'profile', 'offline_access', 'Mail.Read', 'Mail.ReadWrite', 'Mail.Send'],
+        scopes:['user.read','Mail.Read','Mail.Send'],
         redirectUri: 'http://localhost:8080/microsoft/auth/callback',
       };
       
@@ -42,10 +44,11 @@ MicrosoftRouter.get('/auth', async (req, res) => {
 MicrosoftRouter.get('/auth/callback', async (req, res) => {
   const tokenRequest = {
     code: req.query.code,
-    scopes:['openid', 'profile', 'offline_access', 'Mail.Read', 'Mail.ReadWrite', 'Mail.Send','user.read'], // Specify the same scopes as used during authorization
+    // scopes:['openid', 'profile', 'offline_access', 'Mail.Read', 'Mail.ReadWrite', 'Mail.Send','user.read'], // Specify the same scopes as used during authorization
+    scopes:['user.read','Mail.Read','Mail.Send'],
     redirectUri: 'http://localhost:8080/microsoft/auth/callback', // The same redirect URI used in the authorization URL
   };
-
+  console.log(req.query.code)
   try {
     // Exchange the authorization code for an access token
     const response = await pca.acquireTokenByCode(tokenRequest);
@@ -58,10 +61,11 @@ MicrosoftRouter.get('/auth/callback', async (req, res) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    const userData = await userProfile.json();
-    console.log('User data:', userData);
-
-    res.send('Authentication successful');
+    const userData = userProfile.data;
+    // console.log('User data:', userData);
+    await redisConnection.set(userData.mail,accessToken);
+    let message = `${userData.mail}.User authenticated`
+    res.send(message);
   } catch (error) {
     // console.error('Error acquiring access token:', error);
     res.status(500).send(error);

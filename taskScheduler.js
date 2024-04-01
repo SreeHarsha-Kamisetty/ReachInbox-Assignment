@@ -47,3 +47,48 @@ sendReplyWorker.on("failed",(job)=>{
     console.log(job.name+"failed");
 })
 
+const OutlookReply = new Worker("outlook-reply",async(job)=>{
+    try {
+        let reply = await readLabelAndReply(job.data.label)
+        // console.log(reply)
+        let subject = reply[0].replace("Subject: ","");
+        let content = reply[1].replace(": ","");
+        let recipient = job.data.sender
+
+        let message = {
+            "message": {
+                "subject": `${subject}`,
+                "body": {
+                  "contentType": "Text",
+                  "content": `${content}`
+                },
+                "toRecipients": [
+                  {
+                    "emailAddress": {
+                      "address": `${recipient}`
+                    }
+                  }
+                ]
+               
+              },
+              "saveToSentItems": "true"
+        }
+
+        let response = await axios.post("https://graph.microsoft.com/v1.0/me/sendMail",message,{
+            headers: {
+                Authorization: `Bearer ${job.data.accessToken}`,
+              }
+        })
+        console.log(response.status)
+    } catch (error) {
+        console.log(error)
+    }
+},{connection})
+
+OutlookReply.on("completed",(job)=>{
+    console.log(job.name+" completed")
+})
+
+OutlookReply.on("failed",(job)=>{
+    console.log(job.name+"failed");
+})

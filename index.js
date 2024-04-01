@@ -4,6 +4,7 @@ const path = require("path");
 const { GoogleRouter } = require("./routes/google.routes");
 const { GmailRouter } = require("./routes/gmail.routes");
 const { MicrosoftRouter } = require("./routes/microsoft.router");
+const { OutlookRouter } = require("./routes/outlook.routes");
 
 
 
@@ -21,6 +22,9 @@ app.use("/gmail",GmailRouter)
 
 app.use("/microsoft",MicrosoftRouter)
 
+// Outlook routes
+
+app.use("/outlook",OutlookRouter)
 app.get("/",(req,res)=>{
     res.sendFile(path.join(__dirname,"index.html"))
 })
