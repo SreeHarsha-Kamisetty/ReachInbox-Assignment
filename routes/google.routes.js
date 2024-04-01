@@ -43,7 +43,7 @@ GoogleRouter.get("/auth/callback",async(req,res)=>{
                 Authorization: `Bearer ${accessToken}`
             }
         });
-        // console.log(accessToken)
+        console.log(accessToken)
         const userEmail = userInfoResponse.data.email;
         console.log('User Email:', userEmail);
         redisConnection.set(userEmail,accessToken)

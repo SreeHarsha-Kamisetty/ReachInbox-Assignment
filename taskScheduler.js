@@ -21,7 +21,7 @@ const sendReplyWorker = new Worker("reply",async(job)=>{
         let subject = reply[0].replace("Subject: ","");
         let content = reply[1].replace(": ","");
         let sender = job.data.userId;
-        let recipient = "sreeharsha.kamisetty99@gmail.com"
+        let recipient = job.data.sender
 
         let rawMessage = mailUser(sender,recipient,subject,content)
 

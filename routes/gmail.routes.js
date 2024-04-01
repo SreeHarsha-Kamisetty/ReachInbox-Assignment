@@ -81,6 +81,9 @@ GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
                 "Authorization" :`Bearer ${access_token}`
             }
         })
+        const fromHeaderValue = response.data.payload.headers.find(header => header.name === 'From').value;
+const senderEmail = fromHeaderValue.match(/<([^>]+)>/)[1];
+console.log(senderEmail);
        let label = await readMailAndAssignLabel(response.data)
        console.log(label)
        if(!label) return res.status(400).json({Error:"Error while assigning label"});
@@ -101,7 +104,8 @@ GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
         id:id,
         access_token:access_token,
         label:label,
-        reply:response.data.snippet
+        reply:response.data.snippet,
+        sender:senderEmail
        }
        LabelQueue.add("Send Reply",jobData);
 
