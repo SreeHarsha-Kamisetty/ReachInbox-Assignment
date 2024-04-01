@@ -13,9 +13,9 @@ const app = express();
 const config = {
   auth: {
     clientId: process.env.AZURE_CLIENT_ID, // Replace with your Azure AD application's client ID
-    authority: 'https://login.microsoftonline.com/common', // Replace with your Azure AD tenant ID
+    authority: 'https://login.microsoftonline.com/common', 
     clientSecret: process.env.AZURE_CLIENT_SECRET,
-    redirectUri: 'http://localhost:8080/microsoft/auth/callback' // Replace with your Azure AD application's client secret (value not id)
+    redirectUri: 'http://localhost:8080/microsoft/auth/callback' 
   },
 };
 
@@ -24,7 +24,7 @@ const pca = new ConfidentialClientApplication(config);
 // Route to start the MS authentication flow
 MicrosoftRouter.get('/auth', async (req, res) => {
     const authCodeUrlParameters = {
-        // scopes: ['openid', 'profile', 'offline_access', 'Mail.Read', 'Mail.ReadWrite', 'Mail.Send'],
+        
         scopes:['user.read','Mail.Read','Mail.Send'],
         redirectUri: 'http://localhost:8080/microsoft/auth/callback',
       };
@@ -44,11 +44,11 @@ MicrosoftRouter.get('/auth', async (req, res) => {
 MicrosoftRouter.get('/auth/callback', async (req, res) => {
   const tokenRequest = {
     code: req.query.code,
-    // scopes:['openid', 'profile', 'offline_access', 'Mail.Read', 'Mail.ReadWrite', 'Mail.Send','user.read'], // Specify the same scopes as used during authorization
+    
     scopes:['user.read','Mail.Read','Mail.Send'],
     redirectUri: 'http://localhost:8080/microsoft/auth/callback', // The same redirect URI used in the authorization URL
   };
-  console.log(req.query.code)
+  
   try {
     // Exchange the authorization code for an access token
     const response = await pca.acquireTokenByCode(tokenRequest);

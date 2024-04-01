@@ -6,7 +6,7 @@ const { GmailRouter } = require("./routes/gmail.routes");
 const { MicrosoftRouter } = require("./routes/microsoft.router");
 const { OutlookRouter } = require("./routes/outlook.routes");
 
-
+const PORT = process.env.PORT || 8080
 
 const app = express();
 app.use(express.json())
@@ -31,6 +31,6 @@ app.get("/",(req,res)=>{
 
 
 
-app.listen(8080,()=>{
-    console.log(`Server is running at http://localhost:8080`)
+app.listen(PORT,()=>{
+    console.log(`Server is running at http://localhost:${PORT}`)
 } )

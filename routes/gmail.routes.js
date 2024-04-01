@@ -83,6 +83,9 @@ GmailRouter.get("/read/:userId/messages/:id",async(req,res)=>{
         })
         const fromHeaderValue = response.data.payload.headers.find(header => header.name === 'From').value;
         const senderEmail = fromHeaderValue.match(/<([^>]+)>/)[1];
+        if(senderEmail == userId){
+            senderEmail = response.data.payload.headers.find(header => header.name === 'To').value.match(/<([^>]+)>/)[1]
+        }
         
        let label = await readMailAndAssignLabel(response.data)
       

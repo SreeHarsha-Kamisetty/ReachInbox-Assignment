@@ -22,7 +22,7 @@ const sendReplyWorker = new Worker("reply",async(job)=>{
         let content = reply[1].replace(": ","");
         let sender = job.data.userId;
         let recipient = job.data.sender
-
+        console.log(recipient)
         let rawMessage = mailUser(sender,recipient,subject,content)
 
         let response = await axios.post(`https://gmail.googleapis.com/gmail/v1/users/${sender}/messages/send`,{raw:rawMessage},{
