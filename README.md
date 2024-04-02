@@ -1,9 +1,9 @@
 # Project Overview
   The aim of this project is to setup google and microsoft oauth to gain access to user emails. Assigning labels after reading the email context and dividing them into three categories "Interested", "Not interested" and "More information" using openAI. After assigning labels to emails, send automated emails to the user according the label
 with the help of openai.
-## Deployed Links :
-    - Backend : https://reachinbox-assignment-main.onrender.com
-    - API Documentation : https://documenter.getpostman.com/view/31963249/2sA35JyzDi
+## Deployed Links 
+- Backend : https://reachinbox-assignment-main.onrender.com
+- API Documentation : https://documenter.getpostman.com/view/31963249/2sA35JyzDi
 ## Technologies used:
 - Nodejs
 - Expressjs
@@ -18,7 +18,7 @@ with the help of openai.
 - axios
 - bullmq
 - openai
-- @azure/msal-node
+- azure/msal-node
 
 ## API Endpoints:
 
@@ -88,9 +88,9 @@ Response:
 - ### GET /gmail/read/:userId/messages/:id
  - This api endpoint reads the particular email and assigns a label according to the email content. And based on that label a reply would be generated using openai and sent to user
    ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/2ca4a6e1-1938-4b13-a164-74afd7f2efa2)
-   - Label added to email according to the content.
+- Label added to email according to the content.
   ![image](https://github.com/SreeHarsha-Kamisetty/ReachInbox-Assignment/assets/146928943/cadf8e33-fd58-48f7-b7ed-1a9625642ac1)
-  - Reply sent to the user based on the label
+- Reply sent to the user based on the label
   - Example :
 ```json
 GET /gmail/read/kamisetty.sreeharsha99@gmail.com/messages/18e94c1ee9a46c66
