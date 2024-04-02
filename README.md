@@ -1,7 +1,9 @@
 # Project Overview
   The aim of this project is to setup google and microsoft oauth to gain access to user emails. Assigning labels after reading the email context and dividing them into three categories "Interested", "Not interested" and "More information" using openAI. After assigning labels to emails, send automated emails to the user according the label
 with the help of openai.
-
+## Deployed Links :
+    - Backend : https://reachinbox-assignment-main.onrender.com
+    - API Documentation : https://documenter.getpostman.com/view/31963249/2sA35JyzDi
 ## Technologies used:
 - Nodejs
 - Expressjs
@@ -98,6 +100,10 @@ Response:
     "Message": "Label assigned. Reply scheduled"
 }
 ```
+    - if user is not interested, "Not Interested" label is assigned to their reply and reply would be sent.
+    ![image](https://github.com/SreeHarsha-Kamisetty/Art-Gallery/assets/146928943/eeeade42-9c82-4ea2-9168-c4092431042f)
+    - if user needs more information about the product "More Information" label is assigned.
+    ![image](https://github.com/SreeHarsha-Kamisetty/Art-Gallery/assets/146928943/57335743-eb4c-461e-9804-a0e76a60c898)
 - ### GET  /gmail/labels/:userId
     - To get a list of all available labels for a user including custom labels as well as default
     - Example:
