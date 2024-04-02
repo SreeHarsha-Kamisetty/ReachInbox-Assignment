@@ -12,7 +12,7 @@ const app = express();
 // MSAL configuration
 const config = {
   auth: {
-    clientId: process.env.AZURE_CLIENT_ID, // Replace with your Azure AD application's client ID
+    clientId: process.env.AZURE_CLIENT_ID, 
     authority: 'https://login.microsoftonline.com/common', 
     clientSecret: process.env.AZURE_CLIENT_SECRET,
     // redirectUri: 'http://localhost:8080/microsoft/auth/callback' 
@@ -54,21 +54,21 @@ MicrosoftRouter.get('/auth/callback', async (req, res) => {
     // Exchange the authorization code for an access token
     const response = await pca.acquireTokenByCode(tokenRequest);
     const accessToken = response.accessToken;
-    console.log(accessToken)
+    
     // Use the access token to make requests to MS Graph API or other protected resources
-    // For example:
+    
     const userProfile = await axios('https://graph.microsoft.com/v1.0/me', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
     const userData = userProfile.data;
-    // console.log('User data:', userData);
+    
     await redisConnection.set(userData.mail,accessToken);
-    let message = `${userData.mail}.User authenticated`
-    res.send(message);
+    let message = `${userData.mail} . User authenticated`
+    res.status(200).json({Message:message});
   } catch (error) {
-    // console.error('Error acquiring access token:', error);
+    
     res.status(500).send(error);
   }
 });
