@@ -5,7 +5,7 @@ const { GoogleRouter } = require("./routes/google.routes");
 const { GmailRouter } = require("./routes/gmail.routes");
 const { MicrosoftRouter } = require("./routes/microsoft.router");
 const { OutlookRouter } = require("./routes/outlook.routes");
-
+const axios = require("axios")
 const PORT = process.env.PORT || 8080
 
 const app = express();
@@ -31,6 +31,8 @@ app.get("/",(req,res)=>{
 
 
 
-app.listen(PORT,()=>{
+app.listen(PORT,async()=>{
+    await axios("https://reachinbox-worker.onrender.com")
+    console.log("Worker started")
     console.log(`Server is running at http://localhost:${PORT}`)
 } )
